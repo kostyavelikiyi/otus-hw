@@ -1,7 +1,6 @@
 package hw02unpackstring
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -33,13 +32,51 @@ func TestUnpack(t *testing.T) {
 	}
 }
 
-func TestUnpackInvalidString(t *testing.T) {
+func TestIsValid(t *testing.T) {
 	invalidStrings := []string{"3abc", "45", "aaa10b"}
 	for _, tc := range invalidStrings {
 		tc := tc
 		t.Run(tc, func(t *testing.T) {
-			_, err := Unpack(tc)
-			require.Truef(t, errors.Is(err, ErrInvalidString), "actual error %q", err)
+			res := IsValid(tc)
+			require.Equal(t, false, res)
+		})
+	}
+}
+
+func TestPrepare(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{input: "a4bc2d5e", expected: "a4b1c2d5e1"},
+		{input: "abccd", expected: "a1b1c1c1d1"},
+		{input: "", expected: ""},
+		{input: "aaa0b", expected: "a1a1a0b1"},
+	}
+	for _, tc := range tests {
+		tc := tc
+		t.Run(tc.input, func(t *testing.T) {
+			res := Prepare(tc.input)
+			require.Equal(t, tc.expected, res)
+		})
+	}
+}
+
+func TestFinallyUnpack(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{input: "a4b1c2d5e1", expected: "aaaabccddddde"},
+		{input: "a1b1c1c1d1", expected: "abccd"},
+		{input: "", expected: ""},
+		{input: "a1a1a0b1", expected: "aab"},
+	}
+	for _, tc := range tests {
+		tc := tc
+		t.Run(tc.input, func(t *testing.T) {
+			res := FinallyUnpack(tc.input)
+			require.Equal(t, tc.expected, res)
 		})
 	}
 }
