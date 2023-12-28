@@ -3,13 +3,13 @@ package hw02unpackstring
 import (
 	"errors"
 	"strconv"
+	"strings"
 	"unicode"
 )
 
 var ErrInvalidString = errors.New("invalid string")
 
 func Unpack(source string) (string, error) {
-
 	if !IsValid(source) {
 		return source, ErrInvalidString
 	}
@@ -18,17 +18,15 @@ func Unpack(source string) (string, error) {
 }
 
 func FinallyUnpack(prepared string) string {
-	var result = ""
-	var prevLetter = ""
+	result := ""
+	prevLetter := ""
 	for i, v := range prepared {
 		if i%2 == 1 {
-			var count, err = strconv.Atoi(string(v))
+			count, err := strconv.Atoi(string(v))
 			if err != nil {
 				panic("Cant parse int")
 			}
-			for j := 0; j < count; j++ {
-				result += prevLetter
-			}
+			result += strings.Repeat(prevLetter, count)
 		} else {
 			prevLetter = string(v)
 		}
@@ -38,8 +36,8 @@ func FinallyUnpack(prepared string) string {
 }
 
 func Prepare(source string) string {
-	var isPrevLetter = false
-	var preparedString = ""
+	isPrevLetter := false
+	preparedString := ""
 	for i, v := range source {
 		if isPrevLetter && unicode.IsLetter(v) {
 			preparedString += "1" + string(v)
@@ -64,8 +62,7 @@ func Prepare(source string) string {
 }
 
 func IsValid(source string) bool {
-
-	var isPrevDigit = false
+	isPrevDigit := false
 	for i, v := range source {
 		if i == 0 && unicode.IsDigit(v) {
 			return false
