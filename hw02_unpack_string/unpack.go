@@ -41,7 +41,6 @@ func Prepare(source string) string {
 	for i, v := range source {
 		if isPrevLetter && unicode.IsLetter(v) {
 			preparedString += "1" + string(v)
-			isPrevLetter = true
 		} else {
 			preparedString += string(v)
 		}
@@ -55,7 +54,6 @@ func Prepare(source string) string {
 		if i == (len(source)-1) && unicode.IsLetter(v) {
 			preparedString += "1"
 		}
-
 	}
 
 	return preparedString
@@ -79,7 +77,6 @@ func IsValid(source string) bool {
 		if unicode.IsLetter(v) {
 			isPrevDigit = false
 		}
-
 	}
 
 	return true
