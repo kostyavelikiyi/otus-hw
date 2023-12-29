@@ -20,7 +20,7 @@ func Unpack(source string) (string, error) {
 func FinallyUnpack(prepared string) string {
 	result := ""
 	prevLetter := ""
-	for i, v := range prepared {
+	for i, v := range []rune(prepared) {
 		if i%2 == 1 {
 			count, err := strconv.Atoi(string(v))
 			if err != nil {
@@ -38,7 +38,7 @@ func FinallyUnpack(prepared string) string {
 func Prepare(source string) string {
 	isPrevLetter := false
 	preparedString := ""
-	for i, v := range source {
+	for i, v := range []rune(source) {
 		if isPrevLetter && unicode.IsLetter(v) {
 			preparedString += "1" + string(v)
 		} else {
@@ -51,7 +51,7 @@ func Prepare(source string) string {
 			isPrevLetter = false
 		}
 
-		if i == (len(source)-1) && unicode.IsLetter(v) {
+		if i == (len([]rune(source))-1) && unicode.IsLetter(v) {
 			preparedString += "1"
 		}
 	}
@@ -61,7 +61,7 @@ func Prepare(source string) string {
 
 func IsValid(source string) bool {
 	isPrevDigit := false
-	for i, v := range source {
+	for i, v := range []rune(source) {
 		if i == 0 && unicode.IsDigit(v) {
 			return false
 		}

@@ -15,6 +15,7 @@ func TestUnpack(t *testing.T) {
 		{input: "abccd", expected: "abccd"},
 		{input: "", expected: ""},
 		{input: "aaa0b", expected: "aab"},
+		{input: "aaaф0b", expected: "aaab"},
 		// uncomment if task with asterisk completed
 		// {input: `qwe\4\5`, expected: `qwe45`},
 		// {input: `qwe\45`, expected: `qwe44444`},
@@ -52,6 +53,7 @@ func TestPrepare(t *testing.T) {
 		{input: "abccd", expected: "a1b1c1c1d1"},
 		{input: "", expected: ""},
 		{input: "aaa0b", expected: "a1a1a0b1"},
+		{input: "aaaф0b", expected: "a1a1a1ф0b1"},
 	}
 	for _, tc := range tests {
 		tc := tc
@@ -71,6 +73,7 @@ func TestFinallyUnpack(t *testing.T) {
 		{input: "a1b1c1c1d1", expected: "abccd"},
 		{input: "", expected: ""},
 		{input: "a1a1a0b1", expected: "aab"},
+		{input: "a1a1a1ф0b1", expected: "aaab"},
 	}
 	for _, tc := range tests {
 		tc := tc
