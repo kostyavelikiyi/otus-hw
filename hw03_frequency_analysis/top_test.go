@@ -80,3 +80,34 @@ func TestTop10(t *testing.T) {
 		}
 	})
 }
+
+func TestCount(t *testing.T) {
+	input := "cat and dog, one dog,two cats and one man"
+
+	expected := make(map[string]int)
+	expected["cat"] = 1
+	expected["and"] = 2
+	expected["dog,"] = 1
+	expected["one"] = 2
+	expected["dog,two"] = 1
+	expected["cats"] = 1
+	expected["man"] = 1
+
+	require.Equal(t, expected, Count(input))
+}
+
+func TestSort(t *testing.T) {
+	input := make(map[string]int)
+	input["hello1"] = 10
+	input["hello"] = 10
+	input["world"] = 5
+
+	expected := []string{"hello", "hello1", "world"}
+	require.Equal(t, expected, Sort(input))
+}
+
+func TestTop(t *testing.T) {
+	input := []string{"hello", "world"}
+	expected := []string{"hello"}
+	require.Equal(t, expected, Top(input, 1))
+}
