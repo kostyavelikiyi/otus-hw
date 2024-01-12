@@ -19,7 +19,7 @@ type lruCache struct {
 	items    map[Key]*ListItem
 }
 
-func (lc *lruCache) purge(key Key) {
+func (lc *lruCache) purge() {
 	element := lc.queue.Back()
 	if element != nil {
 		lc.queue.Remove(element)
@@ -35,12 +35,12 @@ func (lc *lruCache) Set(key Key, value interface{}) bool {
 	}
 	if exists {
 		lc.queue.MoveToFront(element)
-		(*element).Value = ci
+		element.Value = ci
 		return true
 	}
 
 	if lc.queue.Len() == lc.capacity {
-		lc.purge(key)
+		lc.purge()
 	}
 
 	item := lc.queue.PushFront(ci)
@@ -59,7 +59,6 @@ func (lc *lruCache) Get(key Key) (interface{}, bool) {
 }
 
 func (lc *lruCache) Clear() {
-	return
 }
 
 func NewCache(capacity int) Cache {
