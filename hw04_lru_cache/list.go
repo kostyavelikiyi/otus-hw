@@ -30,8 +30,7 @@ func (l *list) Back() *ListItem {
 
 func (l *list) PushFront(v interface{}) *ListItem {
 	if l.Head == nil {
-		l.Head = &ListItem{Value: v}
-		l.Tail = l.Head
+		l.init(v)
 	} else {
 		tmp := l.Head
 		l.Head = &ListItem{Value: v}
@@ -43,8 +42,7 @@ func (l *list) PushFront(v interface{}) *ListItem {
 }
 func (l *list) PushBack(v interface{}) *ListItem {
 	if l.Tail == nil {
-		l.Tail = &ListItem{Value: v}
-		l.Head = &ListItem{Value: v}
+		l.init(v)
 	} else {
 		tmp := l.Tail
 		l.Tail = &ListItem{Value: v}
@@ -78,13 +76,24 @@ func (l *list) MoveToFront(i *ListItem) {
 		i.Next = l.Head
 		i.Prev = nil
 		l.Head = i
+		if l.Tail.Prev == nil {
+			l.Tail.Prev = l.Head
+		}
+
 	} else {
-		i.Prev.Next = i.Next
+		if i.Prev != nil {
+			i.Prev.Next = i.Next
+		}
 		i.Next.Prev = i.Prev
 		i.Next = l.Head
 		i.Prev = nil
 		l.Head = i
 	}
+}
+
+func (l *list) init(v interface{}) {
+	l.Head = &ListItem{Value: v}
+	l.Tail = l.Head
 }
 
 type ListItem struct {
