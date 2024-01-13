@@ -77,6 +77,7 @@ func (l *list) MoveToFront(i *ListItem) {
 		l.Tail = i.Prev
 		l.Tail.Next = nil
 		i.Next = l.Head
+		l.Head.Prev = i
 		i.Prev = nil
 		l.Head = i
 		if l.Tail.Prev == nil {

@@ -62,4 +62,14 @@ func TestList(t *testing.T) {
 		require.Equal(t, resItem2, l.Back())
 		require.Equal(t, resItem2.Value, l.Back().Value)
 	})
+
+	t.Run("movetofront link head with next via next.prev", func(t *testing.T) {
+		l := NewList()
+
+		backItem := l.PushBack("back")
+		l.PushFront("middle")
+		l.PushFront("front")
+		l.MoveToFront(backItem)
+		require.Equal(t, l.Front().Next.Prev, l.Front())
+	})
 }
