@@ -51,7 +51,7 @@ func (l *list) PushBack(v interface{}) *ListItem {
 		tmp.Next = l.Tail
 	}
 	l.len++
-	return l.Head
+	return l.Tail
 }
 
 func (l *list) Remove(i *ListItem) {

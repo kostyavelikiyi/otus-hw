@@ -48,4 +48,18 @@ func TestList(t *testing.T) {
 		}
 		require.Equal(t, []int{70, 80, 60, 40, 10, 30, 50}, elems)
 	})
+
+	t.Run("Push back", func(t *testing.T) {
+		l := NewList()
+		value1 := "ok1"
+		value2 := "ok2"
+
+		resItem1 := l.PushBack(value1)
+		require.Equal(t, resItem1, l.Back())
+		require.Equal(t, resItem1.Value, l.Back().Value)
+
+		resItem2 := l.PushBack(value2)
+		require.Equal(t, resItem2, l.Back())
+		require.Equal(t, resItem2.Value, l.Back().Value)
+	})
 }
